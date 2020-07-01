@@ -1,20 +1,23 @@
-typedef struct node {
+struct Node {
     int data;
-    struct node* next;
-    struct node* prev;
-} Node;
+    Node* next;
+    Node* prev;
+};
 
-typedef struct deque {
+class Deque {
     Node* head;
     Node* tail;
-    int length;
-} Deque;
+    int _length;
+    public:
+        Deque();
+        void enqueueBack(int);
+        void enqueueFront(int);
+        int dequeueFront();
+        int dequeueBack();
+        int peekFront();
+        int peekBack();
+        int length();
+        void display();
+};
 
-Node* createNode(int, Node*, Node*);
-void enqueueBack(Deque*, int);
-void enqueueFront(Deque*, int);
-int dequeueFront(Deque*);
-int dequeueBack(Deque*);
-int peekFront(Deque*);
-int peekBack(Deque*);
-int length(Deque*);
+Node *createNode(int, Node*, Node*);

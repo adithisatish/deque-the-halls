@@ -1,3 +1,6 @@
 a
 *.exe
 *.out
+*.in
+*.out
+test.c
