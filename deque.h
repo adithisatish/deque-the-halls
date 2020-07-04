@@ -1,3 +1,5 @@
+#include<mutex>
+
 struct Node {
     int data;
     Node* next;
@@ -8,6 +10,8 @@ class Deque {
     Node* head;
     Node* tail;
     int _length;
+    std::mutex mutex_front;
+    std::mutex mutex_back;
     public:
         Deque();
         void enqueueBack(int);

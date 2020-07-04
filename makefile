@@ -1,2 +1,2 @@
 deque:
-	g++ client.cpp deque.cpp -o a
+	g++ client.cpp deque.cpp -o a -pthread
