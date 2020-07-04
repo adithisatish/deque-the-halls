@@ -10,8 +10,8 @@ class Deque {
     Node* head;
     Node* tail;
     int _length;
-    std::mutex mutex_front;
-    std::mutex mutex_back;
+    std::mutex mutexFront;
+    std::mutex mutexBack;
     public:
         Deque();
         void enqueueBack(int);

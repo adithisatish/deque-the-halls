@@ -1,5 +1,6 @@
 #include "deque.h"
 #include<iostream>
+#include<mutex>
 
 Node* createNode(int data, Node* prev = 0, Node* next = 0) {
     Node* newNode = new Node;
@@ -17,6 +18,7 @@ Deque::Deque() {
 
 void Deque::enqueueBack(int data) {
     Node* newNode = createNode(data);
+    mutexBack.lock();
     if(tail == nullptr) {
        tail = newNode;
        head = newNode;
@@ -26,10 +28,12 @@ void Deque::enqueueBack(int data) {
         tail = newNode;
     }
     ++_length;
+    mutexBack.unlock();
 }
 
 void Deque::enqueueFront(int data) {
     Node* newNode = createNode(data);
+    mutexFront.lock();
     if(head == nullptr) {
         tail = newNode;
         head = newNode;
@@ -37,12 +41,14 @@ void Deque::enqueueFront(int data) {
         newNode->next = head;
         head->prev = newNode;
         head = newNode;
-    }
+    }    
     ++_length;
+    mutexFront.unlock();
 }
 
 int Deque::dequeueFront() {
     if(head){
+        mutexFront.lock();
         int temp = head->data;
         Node* newHead = head->next;
         if(newHead)
@@ -52,12 +58,14 @@ int Deque::dequeueFront() {
         --_length;
         if(_length == 0)
             tail = nullptr;
+        mutexFront.unlock();
         return temp;
     }
 }
 
 int Deque::dequeueBack() {
     if(tail){
+        mutexBack.lock();
         int temp = tail->data;
         Node* newTail = tail->prev;
         if(newTail)
@@ -67,6 +75,7 @@ int Deque::dequeueBack() {
         --_length;
         if(_length == 0)
             head = nullptr;
+        mutexBack.unlock();
         return temp;
     }
 }
