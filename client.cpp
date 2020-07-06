@@ -39,7 +39,9 @@ int main() {
             default: choice = 0;
         }
     } while(choice);
+
     for(vector<thread>::iterator i = threads.begin(); i != threads.end(); ++i)
         i->join();
+        
     return 0;
 }
