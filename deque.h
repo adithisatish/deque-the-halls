@@ -13,14 +13,13 @@ class Deque {
     std::mutex mutexFront;
     std::mutex mutexBack;
     std::mutex dequeueCommon;
+    std::mutex enqueueCommon;
     public:
         Deque();
         void enqueueBack(int);
         void enqueueFront(int);
         void dequeueFront();
         void dequeueBack();
-        int peekFront();
-        int peekBack();
         int length();
         void display();
 };

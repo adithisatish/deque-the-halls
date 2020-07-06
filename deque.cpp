@@ -19,6 +19,11 @@ Deque::Deque() {
 void Deque::enqueueBack(int data) {
     Node* newNode = createNode(data);
     mutexBack.lock();
+    bool flag = false;
+    if(_length == 0){
+        enqueueCommon.lock();
+        flag = true;        
+    }
     if(tail == nullptr) {
        tail = newNode;
        head = newNode;
@@ -26,14 +31,21 @@ void Deque::enqueueBack(int data) {
         tail->next = newNode;
         newNode->prev = tail;
         tail = newNode;
-    }
+    }    
     ++_length;
+    if(flag)
+        enqueueCommon.unlock();
     mutexBack.unlock();
 }
 
 void Deque::enqueueFront(int data) {
     Node* newNode = createNode(data);
     mutexFront.lock();
+    bool flag = false;
+    if(_length == 0){
+        enqueueCommon.lock();
+        flag = true;
+    }
     if(head == nullptr) {
         tail = newNode;
         head = newNode;
@@ -43,12 +55,14 @@ void Deque::enqueueFront(int data) {
         head = newNode;
     }    
     ++_length;
+    if(flag)
+        enqueueCommon.unlock();
     mutexFront.unlock();
 }
 
 void Deque::dequeueFront() {
-    mutexFront.lock();
     bool flag = false;
+    mutexFront.lock();
     if (_length == 1){
         dequeueCommon.lock();
         flag = true;
@@ -70,8 +84,8 @@ void Deque::dequeueFront() {
 }
 
 void Deque::dequeueBack() {
-    mutexBack.lock();
     bool flag = false;
+    mutexBack.lock();
     if (_length == 1){
         dequeueCommon.lock();
         flag = true;
@@ -92,23 +106,23 @@ void Deque::dequeueBack() {
         dequeueCommon.unlock();
 }
 
-void Deque::display() {
+void Deque::display() {    
+    mutexBack.lock();
+    mutexFront.lock();
+    bool frontLocked = true;
     Node* cur = head;
     while(cur) {
         std::cout<<cur -> data<<" ";
         cur = cur -> next;
+        if(frontLocked){
+            mutexFront.unlock();
+            frontLocked = false;
+        }
     }
-    std::cout<<std::endl;
-}
-
-int Deque::peekFront() {
-    if(head)
-        return head->data;
-}
-
-int Deque::peekBack() {
-    if(tail)
-        return tail->data;
+    mutexBack.unlock();
+    if(frontLocked)
+        mutexFront.unlock();    
+    std::cout<<std::endl;    
 }
 
 int Deque::length() {
