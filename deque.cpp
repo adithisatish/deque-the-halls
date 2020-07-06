@@ -46,9 +46,14 @@ void Deque::enqueueFront(int data) {
     mutexFront.unlock();
 }
 
-int Deque::dequeueFront() {
+void Deque::dequeueFront() {
+    mutexFront.lock();
+    bool flag = false;
+    if (_length == 1){
+        dequeueCommon.lock();
+        flag = true;
+    }
     if(head){
-        mutexFront.lock();
         int temp = head->data;
         Node* newHead = head->next;
         if(newHead)
@@ -58,14 +63,20 @@ int Deque::dequeueFront() {
         --_length;
         if(_length == 0)
             tail = nullptr;
-        mutexFront.unlock();
-        return temp;
     }
+    mutexFront.unlock();
+    if(flag)
+        dequeueCommon.unlock();
 }
 
-int Deque::dequeueBack() {
+void Deque::dequeueBack() {
+    mutexBack.lock();
+    bool flag = false;
+    if (_length == 1){
+        dequeueCommon.lock();
+        flag = true;
+    }
     if(tail){
-        mutexBack.lock();
         int temp = tail->data;
         Node* newTail = tail->prev;
         if(newTail)
@@ -75,9 +86,10 @@ int Deque::dequeueBack() {
         --_length;
         if(_length == 0)
             head = nullptr;
-        mutexBack.unlock();
-        return temp;
     }
+    mutexBack.unlock();
+    if(flag)
+        dequeueCommon.unlock();
 }
 
 void Deque::display() {
