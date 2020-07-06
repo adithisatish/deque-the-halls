@@ -2,10 +2,12 @@
 #### To run
 1. ``` make ```
 
-2. Generate test cases
-``` python3 generator.py > t1.txt ```
+2. Generate test cases (or use already provided test cases)
+``` 
+python3 generator.py > input.txt 
+```
 
-3. ``` ./a < t1.txt ```
+3. ``` ./a < input.txt ```
 
 <<<<<<< HEAD
 =======

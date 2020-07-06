@@ -1,5 +1,5 @@
 from random import randint
-t = 10
+t = randint(10, 1000)
 for _ in range(t):
     menu_option = randint(1, 5)
     print(menu_option, end=" ")
