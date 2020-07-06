@@ -1,6 +1,6 @@
 # Concurrent Deque Implementation
 
-A #### deque is an abstract data structure that generalizes a queue, allowing insertion(enqueuing) and deletion(dequeuing) of elements from both front and rear ends. This repository contains the concurrent implementation of the same.
+A deque is an abstract data structure that generalizes a queue, allowing insertion(enqueuing) and deletion(dequeuing) of elements from both front and rear ends. This repository contains the concurrent implementation of the same.
 
 #### To run
 1. ``` make ```
